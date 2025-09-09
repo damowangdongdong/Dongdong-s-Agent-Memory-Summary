@@ -8,11 +8,35 @@
 
 本综述报告将系统性地解构这些前沿工作，深入探讨记忆系统的核心技术轴线，包括多样化的储存架构（从简单的缓冲区到复杂的知识图谱）、对认知科学的借鉴（如情景记忆、语义记忆和程序化记忆）、将原始经验抽象为通用知识的关键过程，以及越来越多地采用基于学习的方法（尤其是强化学习）来实现动态记忆管理。
 
+# 涉及的论文：
+1.  **Contextual Experience Replay for Continual Learning of Language Agents**
+2.  **In-memory learning A declarative learning framework for large language models**
+3.  **Inducing Programmatic Skills for Agentic Tasks**
+4.  **Agent Workflow Memory**
+5.  **Memp: Exploring Agent Procedural Memory**
+6.  **AGENT KB: Leveraging Cross-Domain Experience for Agentic Problem Solving**
+7.  **MemAgent: Reshaping Long-Context LLM with Multi-Conv RL-based Memory Agent**
+8.  **Learn to Memorize: Optimizing LLM-based Agents with Adaptive Memory Framework**
+9.  **Memento: Fine-tuning LLM Agents without Fine-tuning LLMs**
+10. **G-Memory: Tracing Hierarchical Memory for Multi-Agent Systems**
+11. **Human-inspired Episodic Memory for Infinite Context LLMs**
+12. **From Isolated Conversations to Hierarchical Schemas: Dynamic Tree Memory Representation for LLMs**
+13. **Memory-R1: Enhancing Large Language Model Agents to Manage and Utilize Memories via Reinforcement Learning**
+14. **Coarse-to-Fine Grounded Memory for LLM Agent Planning**
+15. **Multiple Memory Systems for Enhancing the Long-term Memory of Agent**
+16. **Think-in-Memory: Recalling and Post-thinking Enable LLMs with Long-Term Memory**
+17. **A-MEM: Agentic Memory for LLM Agents**
+18. **Zep: A Temporal Knowledge Graph Architecture for Agent Memory**
+19. **MEM1: Learning to Synergize Memory and Reasoning for Efficient Long-Horizon Agents**
+20. **Nemori: Self-Organizing Agent Memory Inspired by Cognitive Science**
+21. **Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory**
 
+---
 
 ## 1\. 记忆储存的架构 (Memory Storage Architecture)
 
 记忆储存架构是Agent记忆系统的基石，它定义了信息如何被组织、编码和关联。不同的架构选择直接影响了记忆系统的效率、可扩展性以及其能够支持的推理类型。本章将逐一剖析所选论文中提出的记忆储存架构，重点关注其使用的数据结构、记忆的编码方式以及记忆单元之间的链接机制。
+
 
 ### 1.1 论文分析
 
@@ -175,7 +199,6 @@
 
 下表总结了每篇论文在记忆储存架构方面的核心方法。
 
-
 | **论文** | **核心架构与方法概述** |
 | --- | --- |
 | CER(Contextual Experience Replay) | 使用动态经验缓冲区，储存由环境动力学和技能组成的经历，每个经历转化为文本描述存入记忆；采用非结构化文本存储，无向量索引。 |
@@ -214,22 +237,24 @@
 
 | 编码方式 | 核心思想 | 相关论文 |
 | :--- | :--- | :--- |
-| **混合编码 (文本+向量)** | 同时存储文本形式和其对应的向量嵌入，兼顾机器检索效率与人类可解释性。 | MemTree, A-MEM, TiM, IML, CER, AWM, Memp, Nemori, CFGM, Mem0, Learn to Memorize |
+| **混合编码 (文本+向量)** | 同时存储文本形式和其对应的向量嵌入，兼顾机器检索效率与人类可解释性。 | MemTree, A-MEM, TiM, IML, CER, AWM, Memp, Nemori, CFGM, Mem0, MMS, Learn to Memorize |
 | **图结构编码** | 记忆被编码为图的节点和边，每个元素都带有语义和关系属性。 | G-Memory, Zep |
 | **代码/程序化编码** | 将记忆编码为可执行的函数或程序脚本，实现从“是什么”到“怎么做”的转变。 | ASI |
 | **底层/内部状态编码** | 记忆直接体现为模型内部状态，如Token序列或注意力机制的键值对。 | MemAgent, EM-LLM, MEM1 |
-| **元组/案例编码** | 将完整的交互轨迹（如状态、动作、奖励）作为一个独立的单元进行编码存储。 | Memento, MMS, AGENT KB |
+| **元组/案例编码** | 将完整的交互轨迹（如状态、动作、奖励）作为一个独立的单元进行编码存储。 | Memento, AGENT KB |
 
 #### 按记忆间链接方式归纳的论文分类
 
 | 链接方式 | 核心思想 | 相关论文 |
 | :--- | :--- | :--- |
 | **显式图链接** | 通过图结构中的“边”来预先定义或动态创建记忆节点间的关系（如因果、时序、相似性）。 | G-Memory, Zep, A-MEM, Mem0 (增强版) |
-| **显式层次/直接链接** | 通过树的父子指针或成对单元的直接映射来建立清晰的结构化关联。 | MemTree, MMS, AGENT KB |
+| **显式层次/直接链接** | 通过树的父子指针或成对单元的直接映射来建立清晰的结构化关联。 | MemTree, AGENT KB |
 | **时序/循环链接** | 记忆单元的关联主要体现在时间顺序上，新的记忆状态由前一刻的状态和新信息生成。 | MemAgent, MEM1, EM-LLM |
 | **组合/函数式链接** | 通过高层记忆（如复杂技能、工作流）调用或包含低层记忆单元来形成功能上的链接。 | ASI, AWM |
-| **隐式/无链接 (检索时确定)** | 记忆单元之间没有预设的结构化链接，其关联性在需要时通过语义相似度检索等方式动态确定。 | CER, IML, Memento, Memp, Memory-R1, TiM, Nemori, CFGM, Learn to Memorize |
+| **隐式/无链接 (检索时确定)** | 记忆单元之间没有预设的结构化链接，其关联性在需要时通过语义相似度检索等方式动态确定。 | MMS, CER, IML, Memento, Memp, Memory-R1, TiM, Nemori, CFGM, Learn to Memorize |
 
+---
+---
 
 ## 2\. 记忆使用与检索方法 (Memory Usage and Retrieval)
 
@@ -466,6 +491,12 @@
 | **记忆演化与扩充** | 任务完成后，将新的经验、技能或知识结构化地整合进记忆库，使其不断增长和自我完善。 | AWM (诱导), AGENT KB, G-Memory, Zep, Nemori, Mem0 |
 | **自反思/后思考** | 在任务执行中或完成后，触发一个反思阶段，对交互过程进行总结提炼，生成更高层次的知识存入记忆。 | CFGM (自问自答反思), TiM (后思考) |
 
+
+---
+
+---
+
+
 ## 3\. 记忆的储存与利用 (Memory Storage and Utilization)
 
 本章探讨记忆内容的本质形态，即Agent究竟储存了什么。这涉及到对原始交互经验的处理深度，是从最原始的日志，到经过层层提炼的抽象知识。分析这一层面，有助于理解不同记忆系统在保真度、通用性和推理能力之间的权衡。
@@ -629,7 +660,7 @@
 
 核心共识是：**抽象是实现有效记忆的关键，而非对历史的完美复刻。** 在所分析的21篇论文中，绝大多数都选择了储存经过处理和抽象后的信息，而非原始的交互日志。其背后的逻辑是，原始数据充满了噪音、冗余和特定于某一情境的细节，直接储存和复用价值有限。通过将原始经验抽象为通用的"技能"（CER, ASI）、"工作流"（AWM）、"想法"（TiM）或"原则"（IML），Agent才能实现知识的泛化，并将从一次经验中学到的教训应用到未来的、相似但不同的情境中。这表明，研究界普遍认为，一个高效记忆系统的核心能力不在于"记住过去"，而在于"从过去中学习并泛化"。
 
-在此共识之上，存在一个重要的设计分支：**LLM不仅是记忆的使用者，更是其自身的策展人（Curator）。** 几乎所有进行抽象处理的系统，都依赖LLM本身来执行这一关键任务。无论是CER的"蒸馏"、AWM的"归纳"、TiM的"后思考"，还是A-MEM的"笔记生成"，其核心都是通过精心设计的提示来引导一个LLM对原始信息进行总结、提炼和泛化。这形成了一个强大而有趣的自举循环：Agent未来的表现依赖于其记忆的质量，而记忆的质量又取决于其背后LLM的抽象和推理能力。这也意味着，基础模型在归纳、总结和泛化能力上的任何提升，都可能直接转化为其作为Agent时记忆性能的提升，即便记忆系统的架构本身保持不变。
+在此共识之上，存在一个重要的设计分支：**对原始轨迹很有必要。** 几乎所有进行抽象处理的系统，都依赖LLM本身来执行这一关键任务。无论是CER的"蒸馏"、AWM的"归纳"、TiM的"后思考"，还是A-MEM的"笔记生成"，其核心都是通过精心设计的提示来引导一个LLM对原始信息进行总结、提炼和泛化。这形成了一个强大而有趣的自举循环：Agent未来的表现依赖于其记忆的质量，而记忆的质量又取决于其背后LLM的抽象和推理能力。这也意味着，基础模型在归纳、总结和泛化能力上的任何提升，都可能直接转化为其作为Agent时记忆性能的提升，即便记忆系统的架构本身保持不变。
 
 另一个关键的设计选择体现在**程序化知识（"知道如何做"）与陈述性知识（"知道是什么"）的权衡上。** 不同的记忆系统根据其Agent的目标任务，选择了不同形态的抽象知识。像ASI, AWM, Memp这类专注于在交互环境中执行多步任务（如网页导航）的系统，倾向于将经验抽象为程序化的知识，如可执行的技能、工作流或脚本。这种形态的记忆直接指导Agent的行动。而像TiM, A-MEM, IML这类更侧重于问答、对话和知识管理任务的系统，则倾向于将经验抽象为陈述性的知识，如事实、想法、原则或关联的笔记。这种形态的记忆主要用于增强Agent的理解和推理能力。这一分野清晰地表明，记忆内容的最佳形态与Agent的最终应用场景紧密耦合。
 
@@ -659,6 +690,11 @@
 | Nemori | 存储对话**事件**摘要；对话自动分段，每段生成事件记忆；查询时选取同事件记忆；不保留完整对话；记忆随新的预言错误动态学习更新。 |
 | Mem0 | 存储提取的**关键信息**或构建的知识图；基础版存文本事实，增强版存图结构；不保存会话原文；新信息加入记忆、旧信息被淘汰。 |
 
+
+---
+
+---
+
 # 4\. 评估使用的 Benchmark
 
 以下列出了每篇论文实验中使用的基准测试（Benchmark）名称：
@@ -685,6 +721,7 @@
 - **Nemori**：LoCoMo 和 LongMemEval 。
 - **Mem0**：LoCoMo 。
 
+---
 # 5\. 按时间线的综合分析与统计
 
 ## 5.1 论文发表时间分布表
@@ -722,6 +759,10 @@
 | GVD/Kdconv/RMD | ✓ (TiM) | — | — | — | — | — | — |
 | MSC/MSC-E/QuALITY/MultiHop RAG | — | — | — | ✓ (MemTree) | — | — | — |
 | 多个多Agent任务集 | — | — | — | — | — | ✓ (G-Memory) | — |
+
+
+
+---
 
 # 论文原文
 
